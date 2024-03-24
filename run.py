@@ -105,7 +105,15 @@ if __name__ == '__main__':
     parser.add_argument('--groups', type=int, default=1)
     parser.add_argument('--levels', type=int, default=3)
     parser.add_argument('--stacks', type=int, default=1, help='1 stack or 2 stacks')
-
+    #GNN
+    parser.add_argument('--tvechidden', type=int, default=1, help='scale vec dim')
+    parser.add_argument('--nvechidden', type=int, default=1, help='variable vec dim')
+    parser.add_argument('--use_tgcn', type=int, default=1, help='use cross-scale gnn')
+    parser.add_argument('--use_ngcn', type=int, default=1, help='use cross-variable gnn')
+    parser.add_argument('--anti_ood', type=int, default=1, help='simple strategy to solve data shift')
+    parser.add_argument('--scale_number', type=int, default=4, help='scale number')
+    parser.add_argument('--hidden', type=int, default=8, help='channel dim')
+    parser.add_argument('--tk', type=int, default=10, help='constant w.r.t corss-scale neighbors')
     args = parser.parse_args()
     args.use_gpu = True if torch.cuda.is_available() and args.use_gpu else False
     if args.cut_freq == 0:
