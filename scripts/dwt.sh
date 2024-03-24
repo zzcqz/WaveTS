@@ -1,4 +1,4 @@
-for model_name in PatchTST
+for model_name in dwt
 do
 for pred_len in 96 192 336 720
 do
