@@ -81,7 +81,7 @@ class Model(nn.Module):
         x_U = self.uLinear(x_U.permute(0,2,1)).permute(0,2,1)
         
         xy = self.alpha*x_L + self.beta*x_U 
-        xy = x_L + x_U
+        #xy = x_L + x_U
 
         #xy = self.inverse_haar(x_L,x_U)
         
