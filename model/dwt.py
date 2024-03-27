@@ -50,7 +50,7 @@ class Model(nn.Module):
         x = x / torch.sqrt(x_var)
 
         x_L,x_U = self.haar(x)
-        #x_L,x_U = self.db5(x)
+       
         x_L = self.lLinear(x_L.permute(0,2,1)).permute(0,2,1)       
         x_U = self.uLinear(x_U.permute(0,2,1)).permute(0,2,1)
         
