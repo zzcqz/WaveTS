@@ -21,10 +21,10 @@ python -u run.py \
   --d_model 128 \
   --d_ff 128 \
   --itr 1 \
-  --H_order 6 \
+  --H_order 8 \
   --lradj type3 \
   --dropout 0.05 \
-  --batch_size 8 \
+  --batch_size 32 \
   --train_epochs 50 \
   --learning_rate 0.0005 \
 
@@ -46,10 +46,10 @@ python -u run.py \
   --d_model 128 \
   --d_ff 128 \
   --itr 1 \
-  --H_order 6 \
+  --H_order 8 \
   --lradj type3 \
   --dropout 0.05 \
-  --batch_size 8 \
+  --batch_size 32 \
   --train_epochs 50 \
   --learning_rate 0.0005 \
 
