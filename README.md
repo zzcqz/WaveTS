@@ -1,10 +1,9 @@
->📋  A template README.md for code accompanying a Machine Learning paper
 
-# My Paper Title
+# WaveTS: Wavelet MLPs Are More Efficient for Time Series Forecasting
 
-This repository is the official implementation of [My Paper Title](https://arxiv.org/abs/2030.12345). 
+This repository is the official implementation of WaveTS. 
 
->📋  Optional: include a graphic explaining your approach/main result, bibtex entry, link to demos, blog posts and tutorials
+![image](https://github.com/zzcqz/WaveTS/edit/main/figure/whole_figue.pdf)
 
 ## Requirements
 
