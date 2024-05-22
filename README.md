@@ -25,6 +25,8 @@ bash dwt.sh
 ## Results
 
 Our model achieves the following performance on :
+
+
 ![image](https://github.com/zzcqz/WaveTS/blob/main/figure/Result.png)
 
 
