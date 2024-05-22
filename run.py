@@ -114,6 +114,8 @@ if __name__ == '__main__':
     parser.add_argument('--scale_number', type=int, default=4, help='scale number')
     parser.add_argument('--hidden', type=int, default=8, help='channel dim')
     parser.add_argument('--tk', type=int, default=10, help='constant w.r.t corss-scale neighbors')
+    #DWT
+    parser.add_argument('--isGLU', type=bool, default=False)
     args = parser.parse_args()
     args.use_gpu = True if torch.cuda.is_available() and args.use_gpu else False
     if args.cut_freq == 0:
