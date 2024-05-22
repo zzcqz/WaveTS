@@ -6,7 +6,6 @@ import numpy as np
 
 class Model(nn.Module):
 
-    # FITS: Frequency Interpolation Time Series Forecasting
 
     def __init__(self, configs):
         super(Model, self).__init__()
