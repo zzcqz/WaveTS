@@ -113,8 +113,8 @@ class Model(nn.Module):
         
         x_U = self.uLinear(x_U.permute(0,2,1)).permute(0,2,1)
         
-        xy = x_L  + x_U 
-        xy=(xy) * torch.sqrt(x_var) + x_mean
+        y = x_L  + x_U 
+        y=(y) * torch.sqrt(x_var) + x_mean
         
-        return xy[:,-self.pred_len:,:]
+        return y[:,-self.pred_len:,:]
 
