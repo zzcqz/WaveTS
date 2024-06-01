@@ -12,7 +12,7 @@ e_layers=1
   --model_id exchange_rate_$seq_len'_'$pred_len \
   --model $model_name \
   --data custom \
-  --isGLU False
+  --isGLU False \
   --features M \
   --seq_len $seq_len \
   --pred_len $pred_len \
@@ -48,7 +48,7 @@ e_layers=1
   --model_id weather_$seq_len'_'$pred_len \
   --model $model_name \
   --data custom \
-  --isGLU True
+  --isGLU True \
   --features M \
   --seq_len $seq_len \
   --pred_len $pred_len \
@@ -85,7 +85,7 @@ e_layers=1
   --model_id electricity_$seq_len'_'$pred_len \
   --model $model_name \
   --data custom \
-  --isGLU False
+  --isGLU False \
   --features M \
   --seq_len $seq_len \
   --pred_len $pred_len \
@@ -121,7 +121,7 @@ e_layers=1
   --model_id traffic_$seq_len'_'$pred_len \
   --model $model_name \
   --data custom \
-  --isGLU True
+  --isGLU True \
   --features M \
   --seq_len $seq_len \
   --pred_len $pred_len \
@@ -158,7 +158,7 @@ e_layers=1
   --model $model_name \
   --data ETTh1 \
   --features M \
-  --isGLU False
+  --isGLU False \
   --seq_len $seq_len \
   --pred_len $pred_len \
   --e_layers $e_layers \
@@ -194,7 +194,7 @@ e_layers=1
   --model $model_name \
   --data ETTh2 \
   --features M \
-  --isGLU False
+  --isGLU False \
   --seq_len $seq_len \
   --pred_len $pred_len \
   --e_layers $e_layers \
@@ -230,7 +230,7 @@ e_layers=1
   --model $model_name \
   --data ETTm1 \
   --features M \
-  --isGLU True
+  --isGLU True \
   --seq_len $seq_len \
   --pred_len $pred_len \
   --e_layers $e_layers \
@@ -266,7 +266,7 @@ e_layers=1
   --model $model_name \
   --data ETTm2 \
   --features M \
-  --isGLU False
+  --isGLU False \
   --seq_len $seq_len \
   --pred_len $pred_len \
   --e_layers $e_layers \
