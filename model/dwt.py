@@ -45,8 +45,8 @@ class Model(nn.Module):
 
         x_L,x_U = self.haar(x)  
         x_L = self.lLinear(x_L.permute(0,2,1)).permute(0,2,1)
-        if self.isglu == True:
-            x_L = self.glu(x_L)      
+        """if self.isglu == True:
+            x_L = self.glu(x_L)"""      
         x_U = self.uLinear(x_U.permute(0,2,1)).permute(0,2,1)
         
         y = x_L + x_U 
