@@ -29,7 +29,7 @@ Our model achieves the following performance on :
 
 ![image](https://github.com/zzcqz/WaveTS/blob/main/figure/Result.png)
 
-##Visualization of results
+## Visualization of results
 
 ![image](https://github.com/zzcqz/WaveTS/blob/main/figure/electricity.png)
 
