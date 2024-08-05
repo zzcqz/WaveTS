@@ -1,9 +1,8 @@
 for model_name in dwt
 do
-for seq_len in 720 336 192 96
+for pred_len in 720 336 192 96
 do
-
-pred_len=96
+seq_len=720
 e_layers=1
   python -u run.py \
   --is_training 1 \
