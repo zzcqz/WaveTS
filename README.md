@@ -33,3 +33,8 @@ Our model achieves the following performance on :
 
 ![image](https://github.com/zzcqz/WaveTS/blob/main/figure/electricity.png)
 
+## Visualization of weight
+![image](https://github.com/zzcqz/WaveTS/blob/main/Weightvisualization/electricity_720_360_lLinear_weights.png)
+
+
+
