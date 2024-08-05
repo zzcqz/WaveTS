@@ -8,7 +8,7 @@ import numpy as np
 if __name__ == '__main__':
     
 
-    parser = argparse.ArgumentParser(description='iTransformer')
+    parser = argparse.ArgumentParser(description='WaveTS')
 
     # basic config
     parser.add_argument('--is_training', type=int, required=True, default=1, help='status')
