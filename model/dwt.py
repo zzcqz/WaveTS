@@ -17,6 +17,7 @@ class Model(nn.Module):
         self.alpha = nn.Parameter(torch.sqrt(torch.FloatTensor([2])), requires_grad=True)
         self.isglu = configs.isGLU
         self.lLinear = nn.Linear(self.seq_len//2,self.pred_len)
+        self.gluLinear = nn.Linear(self.seq_len//2,self.pred_len*2)
         self.uLinear = nn.Linear(self.seq_len//2,self.pred_len)
         self.glu = nn.GLU(dim=1)
 
@@ -44,9 +45,10 @@ class Model(nn.Module):
         
 
         x_L,x_U = self.haar(x)  
-        x_L = self.lLinear(x_L.permute(0,2,1)).permute(0,2,1)
-        """if self.isglu == True:
-            x_L = self.glu(x_L)"""      
+        if self.isglu == True:
+            x_L = self.glu_Linear(x_L.permute(0,2,1)).permute(0,2,1)
+            x_L = self.glu(x_L)   
+        else x_L = self.lLinear(x_L.permute(0,2,1)).permute(0,2,1)
         x_U = self.uLinear(x_U.permute(0,2,1)).permute(0,2,1)
         
         y = x_L + x_U 
