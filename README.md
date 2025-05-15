@@ -3,8 +3,6 @@
 
 This repository is the official implementation of WaveTS. 
 
-The overall process can be viewed in the link： [Pipeline.pdf](https://github.com/zzcqz/WaveTS/blob/main/figure/Pipeline.pdf)
-
 ## Requirements
 
 To install requirements:
