@@ -20,18 +20,3 @@ To train and evaluate the model(s) in the paper, run this command:
 bash scripts/dwt.sh
 ```
 
-## Results
-
-Our model achieves the following performance on :
-
-
-![image](https://github.com/zzcqz/WaveTS/blob/main/figure/Result.png)
-
-## Visualization of results
-
-![image](https://github.com/zzcqz/WaveTS/blob/main/figure/electricity.png)
-![image](https://github.com/zzcqz/WaveTS/blob/main/Result_visualization/Forecast_results.png)
-
-## Visualization of weight
-![image](https://github.com/zzcqz/WaveTS/blob/main/Weight_visualization/lLinear_weights.png)
-
