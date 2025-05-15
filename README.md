@@ -1,5 +1,5 @@
 
-# WaveTS: Wavelet MLPs Are More Efficient for Time Series Forecasting
+# Wavelet Mixture of Experts for Time Series Forecasting
 
 This repository is the official implementation of WaveTS. 
 
