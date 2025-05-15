@@ -19,7 +19,7 @@ pip install -r requirements.txt
 To train and evaluate the model(s) in the paper, run this command:
 
 ```train
-bash dwt.sh
+bash scrip/dwt.sh
 ```
 
 ## Results
