@@ -11,7 +11,7 @@ if __name__ == '__main__':
     torch.manual_seed(fix_seed)
     np.random.seed(fix_seed)
 
-    parser = argparse.ArgumentParser(description='iTransformer')
+    parser = argparse.ArgumentParser(description='WaveTS')
 
     # basic config
     parser.add_argument('--is_training', type=int, required=True, default=1, help='status')
