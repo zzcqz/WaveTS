@@ -1,7 +1,7 @@
 import os
 import torch
-from model import Transformer, Informer, Reformer,iTransformer, FITS,FFF,FreTS,DLinear,dwt,PatchTST
-    
+from model import Transformer, Informer, Reformer, Flowformer, Flashformer, \
+    iTransformer, iInformer, iReformer, iFlowformer, iFlashformer, WaveTSB, WaveTSM
 
 
 class Exp_Basic(object):
@@ -11,12 +11,15 @@ class Exp_Basic(object):
             'Transformer': Transformer,
             'Informer': Informer,
             'Reformer': Reformer,
+            'Flowformer': Flowformer,
+            'Flashformer': Flashformer,
             'iTransformer': iTransformer,
-            'FITS':FITS,
-            'FreTS':FreTS,
-            'DLinear':DLinear,
-            'dwt':dwt,
-            'PatchTST':PatchTST,
+            'iInformer': iInformer,
+            'iReformer': iReformer,
+            'iFlowformer': iFlowformer,
+            'iFlashformer': iFlashformer,
+            'WaveTSB':WaveTSB,
+            'WaveTSM':WaveTSM
         }
         self.device = self._acquire_device()
         self.model = self._build_model().to(self.device)
