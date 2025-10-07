@@ -6,9 +6,12 @@ import random
 import numpy as np
 
 if __name__ == '__main__':
-    
+    fix_seed = 2025
+    random.seed(fix_seed)
+    torch.manual_seed(fix_seed)
+    np.random.seed(fix_seed)
 
-    parser = argparse.ArgumentParser(description='WaveTS')
+    parser = argparse.ArgumentParser(description='iTransformer')
 
     # basic config
     parser.add_argument('--is_training', type=int, required=True, default=1, help='status')
@@ -31,7 +34,6 @@ if __name__ == '__main__':
     parser.add_argument('--seq_len', type=int, default=96, help='input sequence length')
     parser.add_argument('--label_len', type=int, default=48, help='start token length') # no longer needed in inverted Transformers
     parser.add_argument('--pred_len', type=int, default=96, help='prediction sequence length')
-    parser.add_argument('--seasonal_patterns', type=str, default='Monthly', help='subset for M4')
 
     # model define
     parser.add_argument('--enc_in', type=int, default=7, help='encoder input size')
@@ -52,6 +54,7 @@ if __name__ == '__main__':
                         help='time features encoding, options:[timeF, fixed, learned]')
     parser.add_argument('--activation', type=str, default='gelu', help='activation')
     parser.add_argument('--output_attention', action='store_true', help='whether to output attention in ecoder')
+    parser.add_argument('--do_predict', action='store_true', help='whether to predict unseen future data')
 
     # optimization
     parser.add_argument('--num_workers', type=int, default=10, help='data loader num workers')
@@ -72,54 +75,21 @@ if __name__ == '__main__':
     parser.add_argument('--devices', type=str, default='0,1,2,3', help='device ids of multile gpus')
 
     # iTransformer
-    parser.add_argument('--exp_name', type=str, required=False, default='None',
-                        help='experiemnt name, options:[partial_train, zero_shot]')
-    parser.add_argument('--efficient_training', type=bool, default=False, help='whether to use efficient_training (exp_name should be partial train)')
+    parser.add_argument('--exp_name', type=str, required=False, default='MTSF',
+                        help='experiemnt name, options:[MTSF, partial_train]')
     parser.add_argument('--channel_independence', type=bool, default=False, help='whether to use channel_independence mechanism')
     parser.add_argument('--inverse', action='store_true', help='inverse output data', default=False)
     parser.add_argument('--class_strategy', type=str, default='projection', help='projection/average/cls_token')
     parser.add_argument('--target_root_path', type=str, default='./data/electricity/', help='root path of the data file')
     parser.add_argument('--target_data_path', type=str, default='electricity.csv', help='data file')
-    
-    #FITS
-    parser.add_argument('--individual', action='store_true', default=False, help='DLinear: a linear layer for each variate(channel) individually')
-    parser.add_argument('--cut_freq', type=int,default=0)
-    parser.add_argument('--base_T', type=int,default=24)
-    parser.add_argument('--H_order', type=int,default=8)
-    parser.add_argument('--seed', type=int, default=2021, help='size of augmented data, i.e, 1 means double the size of dataset')
-    
-    # PatchTST
-    parser.add_argument('--fc_dropout', type=float, default=0.05, help='fully connected dropout')
-    parser.add_argument('--head_dropout', type=float, default=0.0, help='head dropout')
-    parser.add_argument('--patch_len', type=int, default=16, help='patch length')
-    parser.add_argument('--stride', type=int, default=8, help='stride')
-    parser.add_argument('--padding_patch', default='end', help='None: None; end: padding on the end')
-    parser.add_argument('--revin', type=int, default=1, help='RevIN; True 1 False 0')
-    parser.add_argument('--affine', type=int, default=0, help='RevIN-affine; True 1 False 0')
-    parser.add_argument('--subtract_last', type=int, default=0, help='0: subtract mean; 1: subtract last')
-    parser.add_argument('--decomposition', type=int, default=0, help='decomposition; True 1 False 0')
-    parser.add_argument('--kernel_size', type=int, default=25, help='decomposition-kernel')
-    #SCINET
-    parser.add_argument('--hidden_size', default=1, type=float, help='hidden channel of module')
-    parser.add_argument('--kernel', default=5, type=int, help='kernel size, 3, 5, 7')
-    parser.add_argument('--groups', type=int, default=1)
-    parser.add_argument('--levels', type=int, default=3)
-    parser.add_argument('--stacks', type=int, default=1, help='1 stack or 2 stacks')
-    #GNN
-    parser.add_argument('--tvechidden', type=int, default=1, help='scale vec dim')
-    parser.add_argument('--nvechidden', type=int, default=1, help='variable vec dim')
-    parser.add_argument('--use_tgcn', type=int, default=1, help='use cross-scale gnn')
-    parser.add_argument('--use_ngcn', type=int, default=1, help='use cross-variable gnn')
-    parser.add_argument('--anti_ood', type=int, default=1, help='simple strategy to solve data shift')
-    parser.add_argument('--scale_number', type=int, default=4, help='scale number')
-    parser.add_argument('--hidden', type=int, default=8, help='channel dim')
-    parser.add_argument('--tk', type=int, default=10, help='constant w.r.t corss-scale neighbors')
-    #DWT
-    parser.add_argument('--isGLU', type=bool, default=False)
+    parser.add_argument('--efficient_training', type=bool, default=False, help='whether to use efficient_training (exp_name should be partial train)') # See Figure 8 of our paper for the detail
+    parser.add_argument('--use_norm', type=int, default=True, help='use norm and denorm')
+    parser.add_argument('--partial_start_index', type=int, default=0, help='the start index of variates for partial training, '
+                                                                           'you can select [partial_start_index, min(enc_in + partial_start_index, N)]')
+    parser.add_argument('--num_experts', type=int, default=3, help='number of low freq experts')
+    parser.add_argument('--hidden', type=int, default=512, help='dimension of hidden')
     args = parser.parse_args()
     args.use_gpu = True if torch.cuda.is_available() and args.use_gpu else False
-    if args.cut_freq == 0:
-        args.cut_freq = int(args.seq_len // args.base_T + 1) * args.H_order + 10
 
     if args.use_gpu and args.use_multi_gpu:
         args.devices = args.devices.replace(' ', '')
@@ -127,16 +97,12 @@ if __name__ == '__main__':
         args.device_ids = [int(id_) for id_ in device_ids]
         args.gpu = args.device_ids[0]
 
-    fix_seed = args.seed
-    random.seed(fix_seed)
-    torch.manual_seed(fix_seed)
-    np.random.seed(fix_seed)
     print('Args in experiment:')
     print(args)
-    torch.cuda.empty_cache()
-    if args.exp_name == 'partial_train':
+
+    if args.exp_name == 'partial_train': # See Figure 8 of our paper, for the detail
         Exp = Exp_Long_Term_Forecast_Partial
-    else:
+    else: # MTSF: multivariate time series forecasting
         Exp = Exp_Long_Term_Forecast
 
 
@@ -168,6 +134,11 @@ if __name__ == '__main__':
 
             print('>>>>>>>testing : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
             exp.test(setting)
+
+            if args.do_predict:
+                print('>>>>>>>predicting : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
+                exp.predict(setting, True)
+
             torch.cuda.empty_cache()
     else:
         ii = 0
